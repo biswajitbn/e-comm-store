@@ -1,0 +1,58 @@
+<div class="flex flex-col items-center px-40 mt-10">
+  @if (id) {
+  <h1 class="text-2xl font-bold mb-6">Update Brand</h1>
+  }@else {
+  <h1 class="text-2xl font-bold mb-6">Add New Brand</h1>
+  }
+
+  <form class="shadow-sm w-96 p-4">
+    <div class="flex flex-col gap-6">
+      <!-- Name Field -->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Enter brand name"
+          [(ngModel)]="name"
+          name="name"
+        />
+      </mat-form-field>
+      <!-- category field-->
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Category</mat-label>
+        <mat-select [(ngModel)]="categoryId" name="categoryId" required>
+          <mat-option
+            *ngFor="let category of categories"
+            [value]="category._id"
+          >
+            {{ category.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Submit Button -->
+      <div class="w-full flex justify-center">
+        @if (id) {
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!name"
+          (click)="update()"
+        >
+          Update
+        </button>
+        }@else {
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!name"
+          (click)="add()"
+        >
+          Add
+        </button>
+        }
+      </div>
+    </div>
+  </form>
+</div>

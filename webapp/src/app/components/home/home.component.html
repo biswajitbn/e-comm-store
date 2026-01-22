@@ -1,0 +1,46 @@
+<!-- Carousel Section (unchanged) -->
+<div class="carousel-wrapper">
+  <owl-carousel-o [options]="customOptions">
+    <ng-template carouselSlide>
+      <img src="https://static.vecteezy.com/system/resources/previews/004/299/835/non_2x/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-free-vector.jpg" alt="Banner 1" class="carousel-img" />
+    </ng-template>
+    <ng-template carouselSlide>
+      <img src="https://static.vecteezy.com/system/resources/previews/004/299/815/large_2x/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-vector.jpg" alt="Banner 2" class="carousel-img" />
+    </ng-template>
+    <ng-template carouselSlide>
+      <img src="https://static.vecteezy.com/system/resources/previews/011/871/820/non_2x/online-shopping-on-phone-buy-sell-business-digital-web-banner-application-money-advertising-payment-ecommerce-illustration-search-vector.jpg" alt="Banner 3" class="carousel-img" />
+    </ng-template>
+  </owl-carousel-o>
+</div>
+
+<!-- Featured Products Section -->
+<div class="products-section">
+  <h2 class="section-title">Featured Products</h2>
+  <div class="products-slider">
+    <ng-container *ngFor="let product of featuredProducts">
+      <div class="product-card">
+        <app-product-card 
+          [product]="product" 
+          (favoriteToggle)="toggleFavorite($event)"
+          [routerLink]="['/product', product._id]">
+        </app-product-card>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- New Arrivals Section -->
+<div class="products-section">
+  <h2 class="section-title">New Arrivals</h2>
+  <div class="products-slider">
+    <ng-container *ngFor="let product of newProducts">
+      <div class="product-card">
+        <app-product-card 
+          [product]="product" 
+          (favoriteToggle)="toggleFavorite($event)"
+          [routerLink]="['/product', product._id]">
+        </app-product-card>
+      </div>
+    </ng-container>
+  </div>
+</div>

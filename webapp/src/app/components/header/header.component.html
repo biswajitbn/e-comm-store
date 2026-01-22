@@ -1,0 +1,113 @@
+<header class="amazon-header">
+  <!-- Left Section -->
+  <div class="left-section">
+    <div class="logo" routerLink="/">🛒 ShopZone</div>
+    <div class="location">
+      <i class="fa fa-map-marker-alt"></i>
+      <span>Deliver to<br /><strong>India</strong></span>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-bar" (clickOutside)="showDropdown = true">
+    <select [(ngModel)]="selectedCategoryId">
+      <option value="">All</option>
+      <option *ngFor="let category of categoryList" [value]="category._id">
+        {{ category.name }}
+      </option>
+    </select>
+
+<div class="search-input-wrapper" style="position: relative;">
+  <input
+    type="text"
+    placeholder="Search ShopZone..."
+    [(ngModel)]="searchTerm"
+    (focus)="onFocus()"
+    (input)="onInputChange()"
+    (keyup.enter)="onSearch()"
+  />
+
+  <!-- Search Dropdown -->
+  <div class="search-dropdown" *ngIf="showDropdown">
+    <div *ngIf="searchTerm.trim()">
+      <div *ngIf="searchResults.length > 0">
+        <div
+          *ngFor="let result of searchResults"
+          class="dropdown-item"
+          (click)="selectSuggestion(result.name)"
+        >
+          {{ result.name }}
+        </div>
+      </div>
+      <div *ngIf="noResultsFound" class="no-results">No results found</div>
+    </div>
+
+    <!-- Recent Searches -->
+    <div *ngIf="!searchTerm.trim() && recentSearches.length > 0">
+      <div class="dropdown-header">Recent Searches</div>
+      <div
+        *ngFor="let term of recentSearches"
+        class="dropdown-item"
+        (click)="selectSuggestion(term)"
+      >
+        {{ term }}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <button (click)="onSearch()">
+      <i class="fa fa-search"></i>
+    </button>
+  </div>
+
+  <!-- Right Section -->
+  <div class="right-section">
+    <div class="lang">
+      <img src="https://flagcdn.com/in.svg" alt="IN" />
+      <span>EN</span>
+    </div>
+
+    <div class="account">
+      <span *ngIf="authService.isAdmin; else normalUser">
+        <a routerLink="/admin">
+          {{ authService.userName }}<br /><strong>Admin Panel</strong>
+        </a>
+      </span>
+      <ng-template #normalUser>
+        <a routerLink="/profile">
+          {{ authService.userName }}<br /><strong>Account & Lists</strong>
+        </a>
+      </ng-template>
+    </div>
+
+    <div class="orders">
+      <span>Returns<br /><strong>& Orders</strong></span>
+    </div>
+
+    <div class="cart">
+      <i class="fa fa-shopping-cart"></i>
+      <span>Cart</span>
+    </div>
+
+    <div *ngIf="authService.isLoggedIn; else loginBlock">
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+    <ng-template #loginBlock>
+      <button class="login-btn" routerLink="/login">Login</button>
+    </ng-template>
+  </div>
+</header>
+
+<!-- Category Menu -->
+<nav *ngIf="authService.isLoggedIn" class="category-bar">
+  <ul>
+    <li><i class="fa fa-bars"></i> All</li>
+    <li *ngFor="let category of categoryList">
+      <a (click)="searchCategory(category._id)">
+        {{ category.name }}
+      </a>
+    </li>
+  </ul>
+</nav>

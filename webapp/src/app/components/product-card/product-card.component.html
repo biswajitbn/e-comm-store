@@ -1,0 +1,69 @@
+<div class="product-card">
+  <!-- Badges -->
+  <div class="badges">
+    <span *ngIf="product.isNewProduct" class="badge new">New</span>
+    <span *ngIf="product.isFeature" class="badge featured">Featured</span>
+  </div>
+
+  <!-- Product Image -->
+  <div class="image-container" style="position: relative">
+    <img
+      [src]="product.images?.[0] || 'assets/images/no-image.png'"
+      alt="{{ product.name }}"
+    />
+
+    <!-- Add to Favorites Button -->
+    <button
+      class="fav-btn"
+      (click)="toggleFavorite(product, $event)"
+      [class.active]="isFavorite(product)"
+      aria-label="Add to favorites"
+      type="button"
+      title="Add to Favorites"
+    >
+      <i class="fa fa-heart"></i>
+    </button>
+
+    <!-- Add to Cart Button -->
+    <button
+      class="cart-btn"
+      (click)="addToCart(product, $event)"
+      [class.active]="isInCart(product)"
+      aria-label="Add to cart"
+      type="button"
+      title="Add to Cart"
+    >
+      <i class="fa fa-shopping-cart"></i>
+    </button>
+  </div>
+
+  <!-- Product Info -->
+  <div class="product-info">
+    <h3 class="name">{{ product.name }}</h3>
+    <p class="short-desc">{{ product.shortDescription }}</p>
+
+    <!-- Price and Discount -->
+    <div class="price-container">
+      <span class="price"
+        >₹{{
+          product.price - getDiscount(product.price, product.discount)
+        }}</span
+      >
+      <span *ngIf="product.discount" class="original-price"
+        >₹{{ product.price }}</span
+      >
+      <span *ngIf="product.discount" class="discount"
+        >-{{ product.discount }}%</span
+      >
+    </div>
+
+    <!-- Buttons -->
+    <div class="buttons">
+      <button class="buy-btn" (click)="onBuyNow(product,1)">Buy Now</button>
+      <button class="details-btn" (click)="viewDetails(product, $event)">
+  View Details
+</button>
+
+    </div>
+  </div>
+</div>
