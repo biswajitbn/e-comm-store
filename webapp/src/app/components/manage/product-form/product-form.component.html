@@ -1,0 +1,76 @@
+<div class="flex flex-col items-center px-40 mt-10">
+    <h1 *ngIf="id; else addMode">Update Product</h1>
+    <ng-template #addMode><h1>Add New Product</h1></ng-template>
+  
+    <form class="shadow p-4" [formGroup]="productForm">
+      <div class="flex flex-wrap">
+  
+        <mat-form-field class="w-full">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="categoryId">
+            <mat-option *ngFor="let item of categories; index as i" [value]="item._id">{{ item.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field class="w-full">
+          <mat-label>Brand</mat-label>
+          <mat-select formControlName="brandId">
+            <mat-option *ngFor="let item of brands; index as i" [value]="item._id">{{ item.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field class="w-full">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" formControlName="name">
+        </mat-form-field>
+  
+        <mat-form-field class="w-full">
+          <mat-label>Short Description</mat-label>
+          <input matInput type="text" formControlName="shortDescription">
+        </mat-form-field>
+  
+        <mat-form-field class="w-full">
+          <mat-label>Description</mat-label>
+          <textarea matInput rows="5" formControlName="description"></textarea>
+        </mat-form-field>
+  
+        <mat-form-field class="w-full">
+          <mat-label>Price</mat-label>
+          <input matInput type="number" formControlName="price">
+        </mat-form-field>
+  
+        <mat-form-field class="w-full">
+          <mat-label>Discount</mat-label>
+          <input matInput type="number" formControlName="discount">
+        </mat-form-field>
+
+        <div>
+          <mat-checkbox formControlName="isFeature">Is Featured</mat-checkbox>
+          <mat-checkbox formControlName="isNewProduct">Is New</mat-checkbox>
+        </div>
+  
+        <div class="w-full flex flex-col" formArrayName="images">
+          <div class="flex justify-between">
+            <h4>Images</h4>
+            <button mat-raised-button color="primary" type="button" (click)="addImage()">Add Image</button>
+            <button mat-raised-button color="warn" type="button" (click)="removeImage()">Remove Image</button>
+          </div>
+          <div *ngFor="let item of images.controls; index as i">
+            <mat-form-field class="w-full">
+              <mat-label>Image {{ i + 1 }}</mat-label>
+              <input matInput type="text" [formControlName]="i">
+            </mat-form-field>
+          </div>
+        </div>
+  
+      </div>
+  
+      <div class="flex justify-center mt-4">
+        <button *ngIf="id; else addBtn" mat-raised-button color="primary" [disabled]="productForm.invalid" (click)="updateProduct()">Update</button>
+        <ng-template #addBtn>
+          <button mat-raised-button color="primary" [disabled]="productForm.invalid" (click)="addProduct()">Add</button>
+        </ng-template>
+      </div>
+    </form>
+  </div>
+  

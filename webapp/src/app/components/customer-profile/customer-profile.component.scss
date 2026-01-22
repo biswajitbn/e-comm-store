@@ -1,0 +1,67 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #f3f4f6;
+    padding: 2rem;
+  }
+  
+  .profile-card {
+    background: #ffffff;
+    padding: 2.5rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  
+    .profile-heading {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+    }
+  
+    .profile-field {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1.2rem;
+      text-align: left;
+  
+      label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #374151;
+      }
+  
+      input {
+        padding: 0.7rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        outline: none;
+        font-size: 1rem;
+  
+        &:focus {
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+      }
+    }
+  
+    .update-btn {
+      margin-top: 1rem;
+      padding: 0.8rem 1.5rem;
+      background-color: #3b82f6;
+      color: #ffffff;
+      border: none;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #2563eb;
+      }
+    }
+  }
+  

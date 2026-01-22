@@ -1,0 +1,35 @@
+<div class="checkout-page">
+  <h2 class="text-2xl font-bold mb-6">Checkout</h2>
+
+  <div class="checkout-container">
+    <div class="product-info" *ngIf="product">
+      <img [src]="product.images?.[0]" alt="{{ product.name }}" />
+      <div class="details">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.shortDescription }}</p>
+        <p>Price: ₹{{ product.price }}</p>
+        <p>Discount: {{ product.discount }}%</p>
+
+        <div class="quantity-selector">
+          <label>Quantity:</label>
+          <div class="quantity-controls">
+            <button type="button" (click)="decreaseQuantity()">−</button>
+            <input type="number" [(ngModel)]="quantity" readonly />
+            <button type="button" (click)="increaseQuantity()">+</button>
+          </div>
+        </div>
+
+        <p class="total-price font-semibold mt-2">Total: ₹{{ totalPrice }}</p>
+      </div>
+    </div>
+
+    <form #checkoutForm="ngForm" class="delivery-form">
+      <h3 class="text-xl font-semibold mb-4">Delivery Details</h3>
+      <input type="text" placeholder="Full Name" [(ngModel)]="name" name="name" required />
+      <input type="text" placeholder="Address" [(ngModel)]="address" name="address" required />
+      <input type="text" placeholder="Phone Number" [(ngModel)]="phone" name="phone" required />
+    </form>
+
+    <button class="pay-btn" (click)="onPlaceOrder()">Pay Now</button>
+  </div>
+</div>

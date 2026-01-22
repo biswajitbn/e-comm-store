@@ -1,0 +1,243 @@
+.amazon-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0f1111;
+  color: white;
+  padding: 12px 24px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  flex-wrap: wrap;
+
+  .left-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      color: #febd69;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .location {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: #ccc;
+
+      i {
+        font-size: 16px;
+      }
+
+      strong {
+        color: #fff;
+      }
+    }
+  }
+
+  .search-bar {
+    flex-grow: 1;
+    max-width: 640px;
+    display: flex;
+    align-items: stretch;
+    background-color: #fff;
+    border-radius: 6px;
+    margin: 12px 20px;
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+
+    select {
+      background-color: #f3f3f3;
+      border: none;
+      padding: 0 14px;
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+      outline: none;
+      width: 130px;
+      border-right: 1px solid #ccc;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+
+      input {
+        padding: 12px 14px;
+        font-size: 15px;
+        border: none;
+        outline: none;
+        width: 100%;
+        color: #111;
+      }
+
+      .search-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-top: none;
+        z-index: 1000;
+        max-height: 250px;
+        overflow-y: auto;
+        border-radius: 0 0 6px 6px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+
+        .dropdown-header {
+          padding: 10px 14px;
+          background-color: #f9f9f9;
+          font-weight: bold;
+          border-bottom: 1px solid #eee;
+          color: #333;
+        }
+
+        .dropdown-item {
+          padding: 12px 16px;
+          font-size: 14px;
+          cursor: pointer;
+          color: #333;
+          transition: background-color 0.2s ease;
+
+          &:hover {
+            background-color: #f2f2f2;
+          }
+        }
+
+        .no-results {
+          padding: 12px;
+          text-align: center;
+          color: #999;
+        }
+      }
+    }
+
+    button {
+      background-color: #febd69;
+      border: none;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #f3a847;
+      }
+
+      i {
+        font-size: 18px;
+        color: #111;
+      }
+    }
+  }
+
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    font-size: 14px;
+
+    .lang {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      img {
+        width: 22px;
+        height: 16px;
+        border-radius: 2px;
+      }
+    }
+
+    .account,
+    .orders,
+    .cart {
+      color: white;
+      cursor: pointer;
+      white-space: nowrap;
+
+      a,
+      span {
+        color: inherit;
+        text-decoration: none;
+
+        strong {
+          font-weight: 700;
+          display: block;
+        }
+      }
+    }
+
+    .cart {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      i {
+        font-size: 20px;
+      }
+    }
+
+    .logout-btn,
+    .login-btn {
+      background-color: transparent;
+      border: 1.5px solid #fff;
+      color: white;
+      padding: 6px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: white;
+        color: #131921;
+      }
+    }
+  }
+}
+
+// Category Bar
+.category-bar {
+  background-color: #232f3e;
+  color: white;
+  padding: 12px 24px;
+  font-size: 14px;
+
+  ul {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+
+      i {
+        font-size: 14px;
+      }
+
+      a {
+        color: white;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
