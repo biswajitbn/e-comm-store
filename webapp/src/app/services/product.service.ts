@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Brand } from '../types/brand';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { Product } from '../types/product';
 
 @Injectable({

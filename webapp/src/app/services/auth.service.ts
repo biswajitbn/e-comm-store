@@ -1,64 +1,62 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
-  constructor() { }
+  constructor() {}
 
   http = inject(HttpClient);
 
-  register(name:string, email: string, password: string){
-    return this.http.post(environment.apiUrl + '/auth/register',{
+  register(name: string, email: string, password: string) {
+    return this.http.post(environment.apiUrl + '/auth/register', {
       name,
       email,
-      password
+      password,
     });
   }
-  login(email: string, password: string){
-    return this.http.post(environment.apiUrl + '/auth/login',{
+  login(email: string, password: string) {
+    return this.http.post(environment.apiUrl + '/auth/login', {
       email,
-      password
+      password,
     });
   }
 
-  get isLoggedIn(){
+  get isLoggedIn() {
     let token = localStorage.getItem('token');
-    if(token){
+    if (token) {
       return true;
     }
     return false;
   }
-  get isAdmin(){
+  get isAdmin() {
     let userData = localStorage.getItem('user');
-    if(userData){
+    if (userData) {
       return JSON.parse(userData).isAdmin;
     }
     return false;
   }
 
-  get userName(){
+  get userName() {
     let user = localStorage.getItem('user');
-    if(user){
+    if (user) {
       return JSON.parse(user).name;
     }
     return null;
   }
 
-  get userEmail(){
+  get userEmail() {
     let user = localStorage.getItem('user');
-    if(user){
+    if (user) {
       return JSON.parse(user).email;
     }
     return null;
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   }
-
 }
