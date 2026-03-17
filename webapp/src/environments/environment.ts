@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'https://e-comm-store-1.onrender.com',
 };
