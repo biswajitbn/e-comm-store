@@ -55,7 +55,8 @@ app.use(
   }),
 );
 
-app.options("*", cors());
+/* FIXED LINE */
+app.options(/.*/, cors());
 
 /*
 ====================================
