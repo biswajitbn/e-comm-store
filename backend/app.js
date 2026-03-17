@@ -95,7 +95,7 @@ PROTECTED ROUTES
 */
 
 app.use("/customer", verifyToken, customerRoutes);
-app.use("/category", verifyToken, isAdmin, categoryRoutes);
+app.use("/category", categoryRoutes);
 app.use("/brand", verifyToken, isAdmin, brandRoutes);
 
 /*

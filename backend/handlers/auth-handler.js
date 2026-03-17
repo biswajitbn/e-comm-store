@@ -1,39 +1,49 @@
 const User = require("./../db/user");
 const bcrypt = require("bcrypt");
-const jwt =  require('jsonwebtoken');
-
+const jwt = require("jsonwebtoken");
 
 async function registerUser(model) {
+  const existingUser = await User.findOne({ email: model.email });
 
-    const hashPassword = await bcrypt.hash(model.password,10);
-    let user = new User({
-        name: model.name,
-        email:model.email,
-        password: hashPassword,
-    })
-    await user.save();    
+  if (existingUser) {
+    throw new Error("User already exists");
+  }
+
+  const hashPassword = await bcrypt.hash(model.password, 10);
+
+  let user = new User({
+    name: model.name,
+    email: model.email,
+    password: hashPassword,
+  });
+
+  await user.save();
 }
 
 async function loginUser(model) {
-    const user = await User.findOne({email: model.email});
-    if(!user){
-        return null;
-    }
-    const isMatched = await bcrypt.compare(model.password,user.password);
-    if(isMatched){
-        // login
-        const token = jwt.sign({
-            id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-        },"secret",{
-            expiresIn:"1h",
-        });
-        return { token, user };
-    }else{
-        return null;
-    }    
+  const user = await User.findOne({ email: model.email });
+  if (!user) {
+    return null;
+  }
+  const isMatched = await bcrypt.compare(model.password, user.password);
+  if (isMatched) {
+    // login
+    const token = jwt.sign(
+      {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      },
+    );
+    return { token, user };
+  } else {
+    return null;
+  }
 }
 
-module.exports = { registerUser,loginUser}
+module.exports = { registerUser, loginUser };
