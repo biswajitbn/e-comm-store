@@ -17,7 +17,7 @@ const orderRoutes = require("./routes/order");
 
 app.use(
   cors({
-    origin: "https://e-comm-store-rho.vercel.app",
+    origin: "https://e-comm-store-rho.vercel.app/login",
     credentials: true,
   }),
 );
