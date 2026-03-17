@@ -1,0 +1,24 @@
+<div class="flex flex-col items-center px-40 mt-10">
+    @if (isEdit) {<h1 class="text-2xl font-bold mb-6">Update Category</h1>}@else {<h1 class="text-2xl font-bold mb-6">Add New Category</h1>}
+  
+    <form class="shadow-sm w-96 p-4">
+      <div class="flex flex-col gap-6">
+        <!-- Name Field -->
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" placeholder="Enter category name" [(ngModel)]="name" name="name"/>
+        </mat-form-field>
+  
+        <!-- Submit Button -->
+        <div class="w-full flex justify-center">
+            @if (isEdit) {
+                <button mat-raised-button color="primary" [disabled]="!name" (click)="update()">Update</button>
+            }@else {
+                <button mat-raised-button color="primary" [disabled]="!name" (click)="add()">Add</button>
+            }
+
+        </div>
+      </div>
+    </form>
+  </div>
+  
