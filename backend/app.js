@@ -6,7 +6,12 @@ const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 3000;
 
-// ROUTES
+/*
+====================================
+ROUTES
+====================================
+*/
+
 const categoryRoutes = require("./routes/category");
 const brandRoutes = require("./routes/brand");
 const productRoutes = require("./routes/product");
@@ -16,7 +21,12 @@ const reviewRoutes = require("./routes/review");
 const paymentRoutes = require("./routes/payment");
 const orderRoutes = require("./routes/order");
 
-// MIDDLEWARE
+/*
+====================================
+MIDDLEWARE
+====================================
+*/
+
 const { verifyToken, isAdmin } = require("./middleware/auth-middleware");
 
 /*
@@ -32,21 +42,19 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // allow requests with no origin (mobile apps, curl, postman)
+    origin: (origin, callback) => {
       if (!origin) return callback(null, true);
 
-      if (allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
       }
+
+      return callback(new Error("CORS not allowed"));
     },
     credentials: true,
   }),
 );
 
-// handle preflight requests
 app.options("*", cors());
 
 /*
@@ -64,7 +72,7 @@ TEST ROUTE
 */
 
 app.get("/", (req, res) => {
-  res.send("server running");
+  res.send("Server running");
 });
 
 /*
@@ -85,7 +93,7 @@ PROTECTED ROUTES
 ====================================
 */
 
-app.use("/customer", customerRoutes);
+app.use("/customer", verifyToken, customerRoutes);
 app.use("/category", verifyToken, isAdmin, categoryRoutes);
 app.use("/brand", verifyToken, isAdmin, brandRoutes);
 
@@ -95,16 +103,14 @@ DATABASE CONNECTION
 ====================================
 */
 
-async function connectDb() {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB connected ✅");
-  } catch (err) {
-    console.error("MongoDB connection error:", err);
-  }
-}
-
-connectDb();
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB Connected ✅");
+  })
+  .catch((err) => {
+    console.error("MongoDB Connection Error:", err);
+  });
 
 /*
 ====================================
@@ -112,6 +118,6 @@ SERVER START
 ====================================
 */
 
-app.listen(port, () => {
-  console.log("Server running on port:", port);
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server running on port ${port}`);
 });
