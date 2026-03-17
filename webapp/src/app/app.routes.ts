@@ -17,88 +17,87 @@ import { CustomerProfileComponent } from './components/customer-profile/customer
 import { CheckoutComponent } from './components/checkout/checkout.component';
 
 export const routes: Routes = [
-    {
-        path: "",
-        component: HomeComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path:"admin",
-        component: AdminDashboardComponent,
-        canActivate: [adminGuard]
-    },
-    {
-        path: "admin/categories",
-        component: CategoriesComponent,
-        canActivate: [adminGuard]
-    },
-    {
-        path: "admin/categories/add",
-        component: CategoryFormComponent,
-        canActivate: [adminGuard]
-    },
-    {
-        path: "admin/categories/:id",
-        component: CategoryFormComponent,
-        canActivate: [adminGuard]
-    },
-    {
-        path: "admin/brands",
-        component: BrandsComponent,
-        canActivate: [adminGuard]
-    },
-    {
-        path: "admin/brands/add",
-        component: BrandFormComponent,
-        canActivate: [adminGuard]
-    },
-    {
-        path: "admin/brands/:id",
-        component: BrandFormComponent,
-        canActivate: [adminGuard]
-    },
-    {
-        path: "admin/products",
-        component: ProductsComponent,
-        canActivate: [adminGuard]
-    },
-    {
-        path: "admin/products/add",
-        component: ProductFormComponent,
-        canActivate: [adminGuard]
-    },
-    {
-        path: "admin/products/:id",
-        component: ProductFormComponent,
-        canActivate: [adminGuard]
-    },
-    {
-        path: "products",
-        component: ProductListComponent,
-        canActivate: [authGuard]
-
-    },
-    {
-        path: "product/:id",
-        component: ProductDetailComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: "profile",
-        component: CustomerProfileComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: "checkout/:productId",
-        component: CheckoutComponent,
-        canActivate: [authGuard]
-    },
-    {
-        path: "register",
-        component: RegisterComponent,
-    },
-    {
-        path: "login",
-        component: LoginComponent,
-    }
+  {
+    path: '',
+    component: HomeComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'admin',
+    component: AdminDashboardComponent,
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'admin/categories',
+    component: CategoriesComponent,
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'admin/categories/add',
+    component: CategoryFormComponent,
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'admin/categories/:id',
+    component: CategoryFormComponent,
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'admin/brands',
+    component: BrandsComponent,
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'admin/brands/add',
+    component: BrandFormComponent,
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'admin/brands/:id',
+    component: BrandFormComponent,
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'admin/products',
+    component: ProductsComponent,
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'admin/products/add',
+    component: ProductFormComponent,
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'admin/products/:id',
+    component: ProductFormComponent,
+    canActivate: [adminGuard],
+  },
+  {
+    path: 'products',
+    component: ProductListComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'product/:id',
+    component: ProductDetailComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'profile',
+    component: CustomerProfileComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'checkout/:productId',
+    component: CheckoutComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
 ];
