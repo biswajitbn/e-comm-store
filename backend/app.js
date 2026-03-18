@@ -29,18 +29,28 @@ const { verifyToken, isAdmin } = require("./middleware/auth-middleware");
 
 /*
 ====================================
-CORS CONFIGURATION
+CORS CONFIGURATION (FIXED)
 ====================================
 */
+const allowedOrigins = [
+  "http://localhost:4200",
+  "https://e-comm-store-rho.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "*",
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // postman / mobile
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   }),
 );
-
-/* ⚠️ REMOVE THIS LINE (CAUSES ERROR IN SOME CASES) */
-// app.options("*", cors());
 
 app.use(express.json());
 
