@@ -11,17 +11,18 @@ export class AuthService {
   http = inject(HttpClient);
 
   register(name: string, email: string, password: string) {
-    return this.http.post(environment.apiUrl + '/auth/register', {
-      name,
-      email,
-      password,
-    });
+    return this.http.post(
+      environment.apiUrl + '/auth/register',
+      { name, email, password },
+      { withCredentials: true },
+    );
   }
   login(email: string, password: string) {
-    return this.http.post(environment.apiUrl + '/auth/login', {
-      email,
-      password,
-    });
+    return this.http.post(
+      environment.apiUrl + '/auth/login',
+      { email, password },
+      { withCredentials: true },
+    );
   }
 
   get isLoggedIn() {
