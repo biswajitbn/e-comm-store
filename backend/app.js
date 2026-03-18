@@ -6,6 +6,11 @@ const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 3000;
 
+/*
+====================================
+ROUTES
+====================================
+*/
 const categoryRoutes = require("./routes/category");
 const brandRoutes = require("./routes/brand");
 const productRoutes = require("./routes/product");
@@ -15,56 +20,88 @@ const reviewRoutes = require("./routes/review");
 const paymentRoutes = require("./routes/payment");
 const orderRoutes = require("./routes/order");
 
+/*
+====================================
+MIDDLEWARE
+====================================
+*/
 const { verifyToken, isAdmin } = require("./middleware/auth-middleware");
 
-/* CORS FIX */
+/*
+====================================
+CORS CONFIGURATION
+====================================
+*/
 const allowedOrigins = [
   "http://localhost:4200",
   "https://e-comm-store-rho.vercel.app",
-  "https://your-backend-name.onrender.com",
 ];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
+    origin: (origin, callback) => {
       if (!origin) return callback(null, true);
 
-      if (allowedOrigins.indexOf(origin) !== -1) {
+      if (allowedOrigins.includes(origin)) {
         return callback(null, true);
-      } else {
-        console.log("Blocked by CORS:", origin);
-        return callback(new Error("Not allowed by CORS"));
       }
+
+      console.log("Blocked by CORS:", origin);
+      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
   }),
 );
 
-app.options("*", cors());
+/* ⚠️ REMOVE THIS LINE (CAUSES ERROR IN SOME CASES) */
+// app.options("*", cors());
 
 app.use(express.json());
 
+/*
+====================================
+TEST ROUTE
+====================================
+*/
 app.get("/", (req, res) => {
   res.send("Server running");
 });
 
-/* PUBLIC */
+/*
+====================================
+PUBLIC ROUTES
+====================================
+*/
 app.use("/auth", authRoutes);
 app.use("/product", productRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/orders", orderRoutes);
 
-/* PROTECTED */
+/*
+====================================
+PROTECTED ROUTES
+====================================
+*/
 app.use("/customer", verifyToken, customerRoutes);
 app.use("/category", verifyToken, isAdmin, categoryRoutes);
 app.use("/brand", verifyToken, isAdmin, brandRoutes);
 
+/*
+====================================
+DATABASE CONNECTION
+====================================
+*/
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected ✅"))
   .catch((err) => console.error("MongoDB Error:", err));
 
-app.listen(port, "0.0.0.0", () => {
+/*
+====================================
+START SERVER
+====================================
+*/
+app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

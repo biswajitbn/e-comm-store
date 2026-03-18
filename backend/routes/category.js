@@ -24,12 +24,12 @@ router.get("/", async (req, res) => {
 
 // Get single category by ID
 router.get("/:id", async (req, res) => {
-  const id = req.params["id"];
+  const id = req.params.id;
   const result = await getCategoryById(id);
   res.send(result);
 });
 
-// Update category by ID
+// Update category
 router.put("/:id", async (req, res) => {
   const id = req.params.id;
   const model = req.body;
@@ -37,7 +37,7 @@ router.put("/:id", async (req, res) => {
   res.send({ message: "updated" });
 });
 
-// Delete category by ID
+// Delete category
 router.delete("/:id", async (req, res) => {
   const id = req.params.id;
   await deleteCategory(id);
