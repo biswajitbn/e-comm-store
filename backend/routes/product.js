@@ -1,62 +1,63 @@
 const express = require("express");
 const {
-  addProduct,
-  getAllProducts,
-  getProduct,
-  updateProduct,
-  deleteProduct,
+  getNewProducts,
+  getFeaturedProducts,
+  getProductForListing,
 } = require("../handlers/product-handler");
 
-const { verifyToken, isAdmin } = require("../middleware/auth-middleware");
+const { getCategories } = require("../handlers/category-handler");
+const { getBrands, getBrandsByCategory } = require("../handlers/brand-handler");
+
 const router = express.Router();
 
-router.post("/",verifyToken,isAdmin, async (req, res) => {
-  let model = req.body;
-  let product = await addProduct(model);
-  res.send(product);
-});
-router.put("/:id",verifyToken,isAdmin, async (req, res) => {
-  let model = req.body;
-  let id = req.params["id"];
-  await updateProduct(id, model);
-  res.send({ message: "updated" });
-});
-router.delete("/:id",verifyToken,isAdmin, async (req, res) => {
-  let id = req.params["id"];
-  await deleteProduct(id);
-  res.send({ message: "deleted" });
-});
-router.get("/:id",verifyToken, async (req, res) => {
-  let id = req.params["id"];
-  let product = await getProduct(id);
-  res.send(product);
-});
-router.get("/", async (req, res) => {
-  let products = await getAllProducts();
+// ✅ PUBLIC ROUTES (NO TOKEN)
+
+router.get("/new-products", async (req, res) => {
+  const products = await getNewProducts();
   res.send(products);
 });
 
-router.get("/suggestions", async (req, res) => {
-  try {
-    const term = req.query.term;
-    if (!term || term.length < 2) {
-      return res
-        .status(400)
-        .json({ message: "At least 2 letters are required" });
-    }
+router.get("/featured-products", async (req, res) => {
+  const products = await getFeaturedProducts();
+  res.send(products);
+});
 
-    const result = await getProductSuggestions(term);
+router.get("/categories", async (req, res) => {
+  const categories = await getCategories();
+  res.send(categories);
+});
 
-    if (result.error) {
-      return res
-        .status(500)
-        .json({ message: "Error fetching suggestions", error: result.error });
-    }
+router.get("/brands", async (req, res) => {
+  const { categoryId } = req.query;
 
-    res.json(result.data);
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+  if (categoryId) {
+    const brands = await getBrandsByCategory(categoryId);
+    return res.send(brands);
   }
+
+  const brands = await getBrands();
+  res.send(brands);
+});
+
+router.get("/brands-by-category/:categoryId", async (req, res) => {
+  const { categoryId } = req.params;
+  const brands = await getBrandsByCategory(categoryId);
+  res.send(brands);
+});
+
+router.get("/products", async (req, res) => {
+  const { searchTerm, categoryId, sortBy, sortOrder, brandId, pageSize, page } =
+    req.query;
+  const products = await getProductForListing(
+    searchTerm,
+    categoryId,
+    sortBy,
+    sortOrder,
+    brandId,
+    pageSize,
+    page,
+  );
+  res.send(products);
 });
 
 module.exports = router;
