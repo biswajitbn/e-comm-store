@@ -3,18 +3,27 @@
 <div *ngIf="!loading && product" class="product-details">
   <nav class="breadcrumb">
     <a routerLink="/">Home</a> /
-    <a [routerLink]="['/category', product.categoryId?._id]">{{ product.categoryId?.name }}</a> /
+    <a [routerLink]="['/category', product.categoryId?._id]">{{
+      product.categoryId?.name
+    }}</a>
+    /
     <span>{{ product.name }}</span>
   </nav>
 
   <div class="content">
     <div class="image-gallery">
-      <img [src]="selectedImage || product.images?.[0]" alt="{{ product.name }}" class="main-image" />
+      <img
+        [src]="selectedImage || product.images?.[0]"
+        alt="{{ product.name }}"
+        class="main-image"
+      />
       <div class="thumbnails">
-        <img *ngFor="let img of product.images"
-             [src]="img"
-             (click)="selectedImage = img"
-             [class.active]="img === selectedImage" />
+        <img
+          *ngFor="let img of product.images"
+          [src]="img"
+          (click)="selectedImage = img"
+          [class.active]="img === selectedImage"
+        />
       </div>
     </div>
 
@@ -29,24 +38,40 @@
       <p class="short-desc">{{ product.shortDescription }}</p>
 
       <p class="desc">
-        {{ showFullDesc ? product.description : (product.description | slice:0:300) + '...' }}
+        {{
+          showFullDesc
+            ? product.description
+            : (product.description | slice: 0 : 300) + "..."
+        }}
         <a (click)="showFullDesc = !showFullDesc">
-          {{ showFullDesc ? 'Show Less' : 'Read More' }}
+          {{ showFullDesc ? "Show Less" : "Read More" }}
         </a>
       </p>
 
       <div class="price-box">
-        <span class="price">₹{{ getDiscountedPrice(product.price, product.discount) }}</span>
-        <span *ngIf="product.discount" class="original">₹{{ product.price }}</span>
-        <span *ngIf="product.discount" class="discount">-{{ product.discount }}%</span>
+        <span class="price"
+          >₹{{ getDiscountedPrice(product.price, product.discount) }}</span
+        >
+        <span *ngIf="product.discount" class="original"
+          >₹{{ product.price }}</span
+        >
+        <span *ngIf="product.discount" class="discount"
+          >-{{ product.discount }}%</span
+        >
       </div>
 
-      <p class="stock" [ngClass]="{ 'in-stock': product.inStock, 'out-of-stock': !product.inStock }">
-        {{ product.inStock ? 'In Stock' : 'Out of Stock' }}
+      <p
+        class="stock"
+        [ngClass]="{
+          'in-stock': product.inStock,
+          'out-of-stock': !product.inStock,
+        }"
+      >
+        {{ product.inStock ? "In Stock" : "Out of Stock" }}
       </p>
 
-      <p><strong>Category:</strong> {{ product.categoryId?.name || '-' }}</p>
-      <p><strong>Brand:</strong> {{ product.brandId?.name || '-' }}</p>
+      <p><strong>Category:</strong> {{ product.categoryId?.name || "-" }}</p>
+      <p><strong>Brand:</strong> {{ product.brandId?.name || "-" }}</p>
 
       <div class="quantity">
         <label>Quantity:</label>
@@ -59,8 +84,9 @@
         <button (click)="addToCart(product, quantity)">
           <i class="fas fa-shopping-cart"></i> Add to Cart
         </button>
-        <button (click)="addToWishlist(product)">
-          <i class="fas fa-heart"></i> Add to Wishlist
+        <!-- ✅ Buy Now Button -->
+        <button (click)="buyNow(product, quantity)" class="buy-now">
+          <i class="fas fa-bolt"></i> Buy Now
         </button>
       </div>
     </div>
@@ -74,10 +100,14 @@
   <!-- ⭐ Rating Filter -->
   <div class="filter-group">
     <label for="ratingFilter">Filter by Rating:</label>
-    <select [(ngModel)]="selectedRating" (change)="filterReviews()" id="ratingFilter">
+    <select
+      [(ngModel)]="selectedRating"
+      (change)="filterReviews()"
+      id="ratingFilter"
+    >
       <option value="all">All Ratings</option>
-      <option *ngFor="let r of [5,4,3,2,1]" [value]="r">
-        {{ '★'.repeat(r) + ' ' + r + ' Star' + (r > 1 ? 's' : '') }}
+      <option *ngFor="let r of [5, 4, 3, 2, 1]" [value]="r">
+        {{ "★".repeat(r) + " " + r + " Star" + (r > 1 ? "s" : "") }}
       </option>
     </select>
   </div>
@@ -88,7 +118,10 @@
       <div *ngFor="let review of filteredReviews" class="review-item">
         <p class="reviewer">
           {{ review.name }}
-          <span class="stars">{{ '★'.repeat(review.rating) }}{{ '☆'.repeat(5 - review.rating) }}</span>
+          <span class="stars"
+            >{{ "★".repeat(review.rating)
+            }}{{ "☆".repeat(5 - review.rating) }}</span
+          >
         </p>
         <p class="comment">“{{ review.comment }}”</p>
       </div>
@@ -103,14 +136,25 @@
   <div class="review-form">
     <h4>Leave a Review</h4>
     <form (ngSubmit)="submitReview()">
-      <input type="text" [(ngModel)]="newReview.name" name="name" placeholder="Your name" required />
+      <input
+        type="text"
+        [(ngModel)]="newReview.name"
+        name="name"
+        placeholder="Your name"
+        required
+      />
       <select [(ngModel)]="newReview.rating" name="rating" required>
         <option value="" disabled selected>Select Rating</option>
-        <option *ngFor="let r of [5,4,3,2,1]" [value]="r">
-          {{ '★'.repeat(r) + ' ' + r + ' Star' + (r > 1 ? 's' : '') }}
+        <option *ngFor="let r of [5, 4, 3, 2, 1]" [value]="r">
+          {{ "★".repeat(r) + " " + r + " Star" + (r > 1 ? "s" : "") }}
         </option>
       </select>
-      <textarea [(ngModel)]="newReview.comment" name="comment" placeholder="Your review" required></textarea>
+      <textarea
+        [(ngModel)]="newReview.comment"
+        name="comment"
+        placeholder="Your review"
+        required
+      ></textarea>
       <button type="submit">Submit Review</button>
     </form>
   </div>

@@ -5,13 +5,14 @@ import { ProductService } from '../../services/product.service';
 import { ReviewService } from '../../services/review.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
   imports: [CommonModule, HttpClientModule, RouterModule, FormsModule],
   templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.scss']
+  styleUrls: ['./product-detail.component.scss'],
 })
 export class ProductDetailComponent implements OnInit {
   product: any;
@@ -26,13 +27,14 @@ export class ProductDetailComponent implements OnInit {
   newReview = {
     name: '',
     rating: '',
-    comment: ''
+    comment: '',
   };
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private reviewService: ReviewService
+    private reviewService: ReviewService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +59,8 @@ export class ProductDetailComponent implements OnInit {
           next: (reviews) => {
             const sorted = reviews.sort(
               (a: any, b: any) =>
-                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime(),
             );
             this.product.reviews = sorted;
             this.filteredReviews = [...sorted];
@@ -68,14 +71,14 @@ export class ProductDetailComponent implements OnInit {
             this.product.reviews = [];
             this.filteredReviews = [];
             this.loading = false;
-          }
+          },
         });
       },
       error: (err: any) => {
         console.error('Failed to fetch product:', err);
         this.error = 'Product not found.';
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -95,9 +98,18 @@ export class ProductDetailComponent implements OnInit {
     console.log('Add to cart:', product, quantity);
   }
 
-  addToWishlist(product: any): void {
-    console.log('Add to wishlist:', product);
+  buyNow(product: any, quantity: number): void {
+    this.router.navigate(['/checkout', product._id], {
+      state: {
+        product,
+        quantity,
+      },
+    });
   }
+
+  // addToWishlist(product: any): void {
+  //   console.log('Add to wishlist:', product);
+  // }
 
   filterReviews(): void {
     if (this.selectedRating === 'all') {
@@ -105,7 +117,7 @@ export class ProductDetailComponent implements OnInit {
     } else {
       const rating = parseInt(this.selectedRating);
       this.filteredReviews = (this.product.reviews || []).filter(
-        (r: any) => r.rating === rating
+        (r: any) => r.rating === rating,
       );
     }
   }
@@ -118,7 +130,7 @@ export class ProductDetailComponent implements OnInit {
     const review = {
       name: name.trim(),
       rating: parseFloat(rating),
-      comment: comment.trim()
+      comment: comment.trim(),
     };
 
     this.reviewService.addReview(this.product._id, review).subscribe({
@@ -127,14 +139,15 @@ export class ProductDetailComponent implements OnInit {
           next: (reviews) => {
             const sorted = reviews.sort(
               (a: any, b: any) =>
-                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime(),
             );
             this.product.reviews = sorted;
             this.filterReviews(); // Maintain selected filter
           },
           error: (err) => {
             console.error('Failed to fetch updated reviews:', err);
-          }
+          },
         });
 
         this.newReview = { name: '', rating: '', comment: '' };
@@ -142,7 +155,7 @@ export class ProductDetailComponent implements OnInit {
       error: (err: any) => {
         console.error('Failed to submit review:', err);
         alert('Something went wrong. Try again.');
-      }
+      },
     });
   }
 }
