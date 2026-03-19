@@ -70,7 +70,7 @@ PUBLIC ROUTES
 */
 app.use("/auth", authRoutes);
 app.use("/product", productRoutes);
-app.use("/reviews", reviewRoutes);
+app.use("/api/reviews", reviewRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/orders", orderRoutes);
 
