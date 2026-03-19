@@ -68,20 +68,20 @@ app.get("/", (req, res) => {
 PUBLIC ROUTES
 ====================================
 */
-app.use("/api/auth", authRoutes);
-app.use("/api/product", productRoutes);
-app.use("/api/reviews", reviewRoutes);
-app.use("/api/payment", paymentRoutes);
-app.use("/api/orders", orderRoutes);
+app.use("/auth", authRoutes);
+app.use("/product", productRoutes);
+app.use("/reviews", reviewRoutes);
+app.use("/payment", paymentRoutes);
+app.use("/orders", orderRoutes);
 
 /*
 ====================================
 PROTECTED ROUTES
 ====================================
 */
-app.use("/api/customer", customerRoutes);
-app.use("/api/category", verifyToken, isAdmin, categoryRoutes);
-app.use("/api/brand", verifyToken, isAdmin, brandRoutes);
+app.use("/customer", customerRoutes);
+app.use("/category", verifyToken, isAdmin, categoryRoutes);
+app.use("/brand", verifyToken, isAdmin, brandRoutes);
 
 /*
 ====================================
